@@ -1,0 +1,179 @@
+angular directive template hostlistner tooltipRef smoke test
+
+1) What are directives in Angular?
+Ans=> https://www.tatvasoft.com/outsourcing/2023/06/directives-in-angular.html
+
+2) In a template how can be distinguish b/w Attribute and Structural Directive?
+
+3) Is asterisk (*) mandatory to use before structural directive?
+Ans=> No, the asterisk (*) is not strictly necessary for structural directives,
+	but it is the shorthand "syntactic sugar" that makes them much easier to use.
+	Behind the scenes, Angular expands the asterisk into a more verbose <ng-template> element.
+
+	<ng-template [ngIf]="hero"> <div> {{hero.name}} </div> </ng-template>	
+	<div *ngIf="hero"> {{hero.name}} </div>
+
+
+4) Component is a directive explain?
+
+5) Life Cycle Hooks? xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Ans=> https://angular.dev/guide/components/lifecycle
+
+7) ngOnit vs ngOnChanges. What is the differnce? Who is called first ngOnInit or ngOnChanges?
+   When are input properties initialized?
+
+8) What does constructor do in angular? A rule We should not write any business
+   logic or initializer logic a contructor? Technically we can subcribe to something or
+   do someting or trverse an api call in a constructor? But it is prohibited in companies Why?
+   It can cause errors in the future? Logic is cpomponent is not always initialized when
+   constructor is called. So that means ngOnDestoy would not be called.
+
+9) AfterViewInit when it is called? ngOnDestry used to cancel subscription, what are the
+   other ways manages subscription to achieve this? Async pipe. Third party libraries
+   to make them wait bioler plating? Take Until it acquires. fromNgNeet and untilDisplay.Third Party Library
+
+10) *ngFor structural directive has trackBy property. What is that? What does trackBy help with?
+	https://v2.angular.io/docs/ts/latest/guide/structural-directives.html#!#asterisk
+
+11) Do you know about view encapsulation? Component decorator we have view encapsulation property. We can
+	set it to none. Can you describe it?
+
+12) What is shadow dom? Kinds of selectors in angular for css?
+
+13) What is angular ng-deep? Is it similar to css important? Why should we not use it? 
+	Use Host before ng deep if it is absolutely necessary to use.
+
+14) What is change detection stratergy? What are all the stratergies? How it is done can you tell the
+	entire process. What are the says to perform change detection? Run by Application ref t?? 
+	Change detection on the whole tree.
+
+15) What do you understand by lazy loading?
+
+=>	It is a way to split up bundles into seperate smaller bundles and to optimize initial loading time
+	only load what you need.
+
+16) How dependency injection works in angular? What are Platform Module. What will happen if lazy loaded
+	module in the parent will it be avaible to the childen through depency injection.
+
+=> Dependency injection tree and angular can provide injectables on different levels and if dependency
+	is provided on top level it is also accesbil down the line. It can be provoded on the application level or
+	platform level. Module level and the components level which is acessible to the children.
+
+17) Dependency injector lookup logic? How to restrict it? How to make it optional or Self. Can we send a
+	error message on
+
+=> In constructor.
+
+18) How do angular components interact with each other? Including the built-in ways?
+
+=> Input/Output
+	Services => Can be injected on modular or component level. And all the child elements can access it and
+	change values or subscribe to values changes.
+	Manual Call=> Some methods like set value on component with like view child or content child.
+
+19) Dependency Injection. What if we will write provided in root and the same Service in the provider section
+	of some component? What will happen?
+
+=> The component will create its own instance and it will replace the root injected one. And the children
+	of that component, they will use the closed provided one.
+
+20) Have you worked with ngrx? Can you tell the life cycle of lifecycle?
+
+=> First action is dispatched then it goes through a reducer and then effect takes place which is depended
+	on the action or the state change. And then effect may or not dispatched another action. That is then
+	passed to the reducer again and so on.
+
+21) When should we use state management libraries?
+
+=> When we have a lot of inter connected entities, similar to why we use sql database over nosql database.
+	When entities have a lot of relationships and a lot of complexities.
+
+22) Difference between pure and impure pipe? In our template we have
+
+=> Pure pipe only checks like the output value only runs when input changes. Impure pipe runs on every
+	change detection cycle.
+
+23) We have used a method in our template for some interpolation. Is it good or not? What do you think we
+	can do Let's assume we do need to use a method what we can do knowing the method we are using is pure
+	depends on some value, probably we are doing it with some ngFor or maybe like doing something directly
+	in the HTML template and inyterplation but in some method. Is there a way to optimise the performance?
+
+=> If we have to get some value we call an actual method of the component it is not good because Ideally
+	we should precompute that value and store it in a variable because thid method would  run on every
+	change detection cycle like whenever the component detects change.
+	Yes we can if we somehow cache the output value of the method for example so if the inputs don't change,
+	it doesn't recompute. Maybe some pattern or way. there is a common name for such a functions to 
+	remember the input and output value. It is called memorize approach, so memorize pipes.
+
+24) Can you describe rxJs and its realtion with angular.
+
+=> rxJs is a pretty big library that provides us with various ways to handle asynchronous things or events
+	so basically asynchronous stuff and so it provies us with various ways to modify the stream of data
+	on the fly with pipeable operators we can use it for cacheing like to store data or to store the states
+	of someting and to be able to react to the state changes.
+
+25) What is inside rxJs. Like what are the main parrts of rxJS? What it provides.
+
+=> First one is observables i.e the stream of data over time, the behvaviour subject like sujects doesn't
+	store the value. Behvaviour subject does store the last value, there is replace objects that replay
+	values whenever new subscription occurs like n values that we specify. And there is async subject.
+
+26) What is an observable and and observer? What is hot and cold obervable?
+
+=> Obseravble is a thinng that you can subscribe to and emits values and observer is something that
+	subscribes to the observervable.
+	Cold observable only emit on subcription and don't share value for mutiple subscribers like angular
+	http methods.
+	Hot observable are sharing the values and they don't really care about the subcriptions to them, they
+	just emit the values and share same values across multiple subscribers. And they start even when some
+	method is subscribed to them or not.
+
+27) What will we recieve when we call i mean subecribe the same cold obervable twice.
+
+=> Potentially we will recieve different value, we can recieve same also depends on condition.
+
+28) Ho wcan we make cold obervable hot??
+
+=> We can share it or share replay the last value. Like i like using share replay for cacheing values, if
+	we don't need to refresh it to often, there is also publish. With publish we would use another one so
+	as to actually start the emissions. Basically to initialize the emissions like we first publish and
+	then call another method.
+
+29) What are rxJs schedulars?
+=> By default rxJs handles observables synchronously like in the main thread. So async schedulars does the
+	same asynchronously.
+
+30) Do we need to unsubscribe from each and every obervable or not?
+=> The obervalbles that emit only one value are destroyed like http cold observable, they would just emit
+	one value and then finalize themselves. So not all observables need to be subcribed. Some we may skip.
+	I would probably always use ngOnDestoy just to ensure.
+
+31) HTTP Clients. What are the benifits of using http clients? And why we are not using fetch or XHR
+	request?
+=>  Http client is build on top of xHttp request and not upon fetch like fetch is not monkey pouched by
+	Zone.JS and the change detection doesn't run upon fetch, so angular HTTP client is wrapped with ng-Zone
+	so is run with angular so we can ensure like proper change detection when stuff is recieved. and also
+	it kind of emits observables which is kind of way to manage data with angular.
+
+32) HTTP client feature to intercept them?
+
+=> So we have interceptor with angular so we can intercept request or responses and like attach some
+	custom headers or modify the data in some way to transfor. So this is allowed because we are using
+	a single HTTP client, so this is run on top of http client.
+
+33) What is the design pattern underneath the interceptor or how interceptor is implemented?
+=> So its commly middleware.
+
+34) What if we ahve multiple interceptors how will they interact? What if we introduced an interceptor but
+	if we for some reason need to use the http client without it. What we can do with it.
+
+=> They will run all of them in sequence but in which sequence I think depending on where we provide them
+	from the closet to the most top level one.
+	Maybe override the provider to use nothing instead of you use value or class on level where its
+	provided.
+
+35) What techniques have you used for optimization in angular?
+=> Rendering optimization- I would use on push with different trackBy, have methods like caching of hard
+	computations. For data caching I would use share replay. Or some store with split the bundle up into
+	smaller bundles like with lazy loading. Probably make pwa to cache assets and then use service workers
+	for cacheing assets.
